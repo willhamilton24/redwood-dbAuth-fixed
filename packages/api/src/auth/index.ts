@@ -71,7 +71,10 @@ export const getAuthenticationContext = async ({
 
   // No `auth-provider` header means that the user is logged out,
   // and none of this auth malarky is required.
-  if (!type) {
+
+  // The dbAuth solution will always have a `auth-provider` header, so check for auth header presence to determine if the user is logged in.
+  // TODO: also check type === 'dbAuth'?
+  if (!type || (!event?.headers?.authorization && !event?.headers?.Authorization)) {
     return undefined
   }
 
